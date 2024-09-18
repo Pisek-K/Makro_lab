@@ -1,13 +1,11 @@
-const express = require("express")
+const express = require("express");
 
-const userController = require("../controller/user-controller")
+const userController = require("../controller/user-controller");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("/",userController.user)
+router.get("/", userController.user);
 
+router.get("/favorite", userController.favorite);
 
-router.get("/favorite",userController.favorite)
-
-
-module.exports = router
+module.exports = router;
