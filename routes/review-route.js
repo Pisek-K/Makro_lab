@@ -1,12 +1,12 @@
 const express = require("express")
 
+const reviewController = require("../controller/review-controller")
+
 
 const router = express.Router()
 
 
-router.post("/",(req,res) =>{
-    
-})
+router.post("/",reviewController.createReview)
 
 
 

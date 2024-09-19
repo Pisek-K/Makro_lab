@@ -41,7 +41,7 @@ model Review {
   updateAt   DateTime   @updatedAt @map("updated_at")
   published  Boolean    @default(false)
   author     User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId   Int        @unique @map("user_id")
+  authorId   Int        @unique @map("author_id")
   categories Category[]
 }
 

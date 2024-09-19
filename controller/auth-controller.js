@@ -30,7 +30,7 @@ exports.register = async (req, res, next) => {
     }
 
     if (!email.includes("@")) {
-      return createError(400, "Incorrect fornat");
+      return createError(400, "Incorrect format");
     }
 
     const isEmailExist = await prisma.user.findFirst({
@@ -63,3 +63,67 @@ exports.forgetPassword = (req, res, next) => {
 exports.resetPassword = (req, res, next) => {
   res.json({ message: "Reset-Password" });
 };
+
+
+exports.updateProfile = async (req,res,next) => {
+  try{
+    const {userId,bio} = req.body
+
+    if(!userId){
+      return createError(400,"User id to be provided")
+    }
+
+    if(typeof userId !== "number"){
+      return createError(400,"User should be number")
+    }
+
+    if(isNaN(userId)){
+      return createError(400,"User is can't be NaN")
+    }
+
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      include: {
+        profile: true,
+      },
+    })
+
+    if(!user){
+      return createError(400,"User not found")
+    }
+
+    if(!user.profile){
+      await prisma.profile.create({
+        data:{
+          bio,userId
+        },
+
+      })
+    }else{
+      await prisma.profile.update({
+        where:{
+         userId
+        },
+        data:{
+          bio
+        },
+      })
+    }
+
+    const updateUser = await prisma.user.findFirst({
+      where:{
+        id: userId
+      },
+      include: {
+        profile: true
+      },
+    })
+
+    res.json({user: updateUser})
+  }catch(err){
+    next(err)
+  }
+}
+

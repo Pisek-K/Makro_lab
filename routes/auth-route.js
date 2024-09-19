@@ -12,4 +12,6 @@ router.post("/forget-password", authController.forgetPassword);
 
 router.patch("/reset-password", authController.resetPassword);
 
+router.patch("/profile", authController.updateProfile)
+
 module.exports = router;
